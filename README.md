@@ -24,10 +24,10 @@ The CleanSeqU package can be installed from GitHub.
 devtools::install_github("BITsmyoon/CleanSeqU")
 ```
 Basic Usage
-The core functionality of the CleanSeqU package is provided through the cleanseq_u_decontam() function. This function offers various options and algorithms for contaminant removal and is user-friendly.
+The core functionality of the CleanSeqU package is provided through the **cleanseq_u_decontam()** function.
 
 Required Input Files
-To use the cleanseq_u_decontam() function, the following input files are required:
+To use the **cleanseq_u_decontam()** function, the following input files are required:
 
 input_asv_count: Path to the ASV count table file
 input_meta_data: Path to the sample metadata file
