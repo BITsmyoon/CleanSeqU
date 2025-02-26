@@ -43,11 +43,12 @@ Please refer to the function documentation (`?cleanseq_u_decontam`) or the packa
 The following is a simple example code to run the cleanseq_u_decontam() function.  Actual file paths should be modified according to the user environment.
 
 #### Set file paths (Replace with your actual file paths)
-asv_count_path <- "path/to/asv_count_table.tsv"
-meta_data_path <- "path/to/meta_data.tsv"
-taxa_table_path <- "path/to/taxa_table.tsv"
-taxa_blacklist_path <- "path/to/taxa_blacklist.tsv"
-in_house_asv_blacklist_path <- "path/to/in_house_asv_blacklist.tsv"
+
+* `asv_count_path` <- "path/to/asv_count_table.tsv"
+* `meta_data_path` <- "path/to/meta_data.tsv"
+* `taxa_table_path` <- "path/to/taxa_table.tsv"
+* `taxa_blacklist_path` <- "path/to/taxa_blacklist.tsv"
+* `in_house_asv_blacklist_path` <- "path/to/in_house_asv_blacklist.tsv"
 
 # Run CleanSeqU function
 result <- cleanseq_u_decontam(
