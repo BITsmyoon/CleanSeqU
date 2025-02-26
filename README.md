@@ -26,15 +26,17 @@ devtools::install_github("BITsmyoon/CleanSeqU")
 Basic Usage
 The core functionality of the CleanSeqU package is provided through the **cleanseq_u_decontam()** function.
 
-Required Input Files
-To use the **cleanseq_u_decontam()** function, the following input files are required:
+### Required Input Files
 
-input_asv_count: Path to the ASV count table file
-input_meta_data: Path to the sample metadata file
-input_taxa_table: Path to the ASV taxonomy table file
-input_taxa_blacklist: Path to the taxonomy blacklist file
-input_in_house_asv_blacklist: Path to the in-house ASV blacklist file
-Please refer to the function documentation (?cleanseq_u_decontam) or the package manual for the format of each input file.
+To use the `cleanseq_u_decontam()` function, the following input files are required:
+
+* `input_asv_count`: Path to the ASV count table file
+* `input_meta_data`: Path to the sample metadata file
+* `input_taxa_table`: Path to the ASV taxonomy table file
+* `input_taxa_blacklist`: Path to the taxonomy blacklist file
+* `input_in_house_asv_blacklist`: Path to the in-house ASV blacklist file
+
+Please refer to the function documentation (`?cleanseq_u_decontam`) or the package manual for the format of each input file.
 
 Example Code
 The following is a simple example code to run the cleanseq_u_decontam() function.  Actual file paths should be modified according to the user environment.
