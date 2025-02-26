@@ -38,10 +38,11 @@ To use the `cleanseq_u_decontam()` function, the following input files are requi
 
 Please refer to the function documentation (`?cleanseq_u_decontam`) or the package manual for the format of each input file.
 
-Example Code
+### Example Code
+
 The following is a simple example code to run the cleanseq_u_decontam() function.  Actual file paths should be modified according to the user environment.
 
-# Set file paths (Replace with your actual file paths)
+#### Set file paths (Replace with your actual file paths)
 asv_count_path <- "path/to/asv_count_table.tsv"
 meta_data_path <- "path/to/meta_data.tsv"
 taxa_table_path <- "path/to/taxa_table.tsv"
