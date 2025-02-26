@@ -1,4 +1,4 @@
-# CleanSeqU Package
+# CleanSeqU
 
 **CleanSeqU** is an R package designed to effectively remove contaminants from low-biomass 16S rRNA data. It is specifically developed to decontaminate 16S rRNA sequencing data, particularly for low-biomass samples such as catheterized urine.
 
