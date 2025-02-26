@@ -22,7 +22,7 @@ The CleanSeqU package can be installed from GitHub.
 # install.packages("devtools")
 
 devtools::install_github("BITsmyoon/CleanSeqU")
-
+```
 Basic Usage
 The core functionality of the CleanSeqU package is provided through the cleanseq_u_decontam() function. This function offers various options and algorithms for contaminant removal and is user-friendly.
 
