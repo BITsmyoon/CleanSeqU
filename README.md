@@ -80,7 +80,15 @@ result <- cleanseq_u_decontam(
 
 ### Results
 
-The `cleanseq_u_decontam()` function returns a list containing three data frames. Example outputs are as follows:
+The `cleanseq_u_decontam()` function returns a list containing three data frames. Each data frame provides different aspects of the decontamination results:
+
+*   **`decontaminated_asv_table`**: Decontaminated ASV count data frame. This table contains counts of ASVs that are highly likely to be contaminants set to 0 by applying the contaminant removal algorithm. This table is suitable for downstream analysis.
+
+*   **`exclude_asv`**: Data frame of removed contaminant ASV IDs. This table lists ASV IDs identified as contaminants and the `case` (case_2, case_3, etc.) in which each ASV was removed. It is useful for checking which ASVs were removed and the reasons for their removal.
+
+*   **`include_asv`**: Data frame of non-removed ASV IDs (potential true signal).  This table contains ASV IDs that were likely contaminants but were not removed. These ASVs might represent potential true biological signals, and further review may be needed during downstream analysis.
+
+Example outputs of these data frames are as follows:
 
 1. Names of the returned list:
 
@@ -104,4 +112,32 @@ head(result$decontamed_asv_count)
 | aee0dacb66bb3b44e8986f3859fd19d6   | 52      | 0       | 0       | 0       | 0       | 17      | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
 | 4850a238b7fbbd5ffa204c5a5a396f2c   | 95      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 687      | 0        |
 
-3. 
+3. Head of exclude_asv data frame:
+
+```R
+head(result$exclude_asv)
+```
+
+| sample  | asv                              | case   |
+|---------|------------------------------------|--------|
+| sample2 | 5648dccee530d68ceb3e4d7d22cf8756   | case_3 |
+| sample2 | efbe1f58b1e2984ddc53a64f047d94ff   | case_3 |
+| sample2 | f4801b7a68515d9005fa572ee6afdf41   | case_3 |
+| sample2 | abd34643df4e48940286e05ff8518132   | case_3 |
+| sample2 | cff91f92ebadff0ecf455925e3e91b54   | case_3 |
+| sample2 | f67869972eff7782d3a18bfcea527d0c   | case_3 |
+
+4. Head of include_asv data frame:
+
+```R
+head(result$include_asv)
+```
+
+| sample   | asv                              | case     |
+|----------|------------------------------------|----------|
+| sample1  | e5c19d7800b18015f3a917fc015fc42f   | case_4_2 |
+| sample6  | d32e579b3ae7b2aae8d5bf9f027c29af   | case_4_2 |
+| sample14 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample15 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample16 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample16 | 107273e73071282e4d0f4a0b46548da5   | case_4_2 |
