@@ -26,6 +26,22 @@ devtools::install_github("BITsmyoon/CleanSeqU")
 Basic Usage
 The core functionality of the CleanSeqU package is provided through the **cleanseq_u_decontam()** function.
 
+## In R
+
+### Run CleanSeqU function
+
+```R
+library(CleanSeqU)
+
+result <- cleanseq_u_decontam(
+  input_asv_count = asv_count_path,
+  input_meta_data = meta_data_path,
+  input_taxa_table = taxa_table_path,
+  input_taxa_blacklist = taxa_blacklist_path,
+  input_in_house_asv_blacklist = in_house_asv_blacklist_path
+)
+```
+
 ### Required Input Files
 
 To use the `cleanseq_u_decontam()` function, the following input files are required:
@@ -37,20 +53,22 @@ To use the `cleanseq_u_decontam()` function, the following input files are requi
 * `input_in_house_asv_blacklist`: Path to the in-house ASV blacklist file
 
 Please refer to the function documentation (`?cleanseq_u_decontam`) or the package manual for the format of each input file.
+**Please make sure to check the structure of each input file using toy data or function documentation. (`?cleanseq_u_decontam`)**
 
-### Example Code
+### Example
 
-The following is a simple example code to run the cleanseq_u_decontam() function.  Actual file paths should be modified according to the user environment.
+```R
+asv_count_path <-
+  system.file("extdata", "toy_asv_count.txt", package = "CleanSeqU")
+meta_data_path <-
+  system.file("extdata", "toy_meta_data.txt", package = "CleanSeqU")
+taxa_table_path <-
+  system.file("extdata", "toy_taxa_table.txt", package = "CleanSeqU")
+taxa_blacklist_path <-
+  system.file("extdata", "toy_asv_count.txt", package = "CleanSeqU")
+in_house_asv_blacklist_path <-
+  system.file("extdata", "toy_taxa_blacklist.txt", package = "CleanSeqU")
 
-#### Set file paths (Replace with your actual file paths)
-
-* `asv_count_path` <- "path/to/asv_count_table.tsv"
-* `meta_data_path` <- "path/to/meta_data.tsv"
-* `taxa_table_path` <- "path/to/taxa_table.tsv"
-* `taxa_blacklist_path` <- "path/to/taxa_blacklist.tsv"
-* `in_house_asv_blacklist_path` <- "path/to/in_house_asv_blacklist.tsv"
-
-# Run CleanSeqU function
 result <- cleanseq_u_decontam(
   input_asv_count = asv_count_path,
   input_meta_data = meta_data_path,
@@ -58,46 +76,32 @@ result <- cleanseq_u_decontam(
   input_taxa_blacklist = taxa_blacklist_path,
   input_in_house_asv_blacklist = in_house_asv_blacklist_path
 )
+```
 
-# View Results
+### Results
+
+The `cleanseq_u_decontam()` function returns a list containing three data frames. Example outputs are as follows:
+
+1. Names of the returned list:
+
+```R
 print(names(result))
+[1] "decontamed_asv_count" "exclude_asv" "include_asv"
+```
+
+2. Head of decontamed_asv_count data frame:
+
+```R
 head(result$decontamed_asv_count)
-head(result$exclude_asv)
-head(result$include_asv)
-Detailed Explanation of Input Parameters
-The cleanseq_u_decontam() function provides various input parameters for contaminant removal analysis. Detailed descriptions for each parameter are as follows:
+```
 
-input_asv_count: Path to the ASV count table file. The ASV count table is the basic data for microbial community analysis, containing counts (frequency) information for each ASV (Amplicon Sequence Variant) in each sample.
+| asv_id                           | sample1 | sample2 | sample3 | sample4 | sample5 | sample6 | sample7 | sample8 | sample10 | sample11 | sample12 | sample13 | sample14 | sample15 | sample16 |
+|------------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|----------|----------|----------|----------|----------|----------|----------|
+| b9fcd7d71b74853248517b892d03a745   | 61      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 429      | 595      | 148      |
+| 6ea8228cb56f8a62f932f0e613bca40e   | 61      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| 8c8839583ce4564dbf5c6e917cafb82e   | 28      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| a8e53bd66879cd51ecb4e7daf552accb   | 56      | 0       | 0       | 0       | 316     | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| aee0dacb66bb3b44e8986f3859fd19d6   | 52      | 0       | 0       | 0       | 0       | 17      | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| 4850a238b7fbbd5ffa204c5a5a396f2c   | 95      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 687      | 0        |
 
-Column names: Should consist of asv_id column and sample ID columns.
-First column: Must be the asv_id column.
-Format: Tab-separated values text file (.tsv) format.
-input_meta_data: Path to the sample metadata file. The sample metadata file contains sample information. In the CleanSeqU package, it is used to check negative control (NTC) sample information.
-
-Column names: Should consist of sample_id column and ntc_check column.
-sample_id column: Must match the sample names in the input_asv_count table.
-ntc_check column: Negative control samples should be marked as "ntc", and other samples should be marked as "-".
-Format: Tab-separated values text file (.tsv) format.
-input_taxa_table: Path to the ASV taxonomy table file. The ASV taxonomy table contains taxonomic information (Taxonomy) for each ASV.
-
-Required column names: asv_id and Taxon columns are required.
-Taxon column: Taxonomic lineage information should be written in the format k_Kingdom;p_Phylum;c_Class;o_Order;f_Family;g_Genus;s_Species. Example: k_Bacteria;p_Firmicutes;c_Bacilli;o_Lactobacillales;f_Lactobacillaceae;g_Lactobacillus;s_iners
-Format: Tab-separated values text file (.tsv) format.
-input_taxa_blacklist: Path to the Taxonomy blacklist file. Contains blacklist information of taxa frequently detected in control samples.
-
-Column names: Should consist of level and name columns.
-level column: Taxonomic level should be written in lowercase. Example: k (kingdom), p (phylum), g (genus), etc.
-name column: Taxon names to be blacklisted should be written to match the names used in the Taxon column of input_taxa_table.
-Format: Tab-separated values text file (.tsv) format.
-input_in_house_asv_blacklist: Path to the in-house ASV blacklist file. Contains a list of ASV IDs frequently detected in the user's experimental setting.
-
-Column names: inhouse_asv_blacklist column is required.
-inhouse_asv_blacklist column: ASV ID information to be blacklisted should be written.
-Format: Tab-separated values text file (.tsv) format.
-Output
-The cleanseq_u_decontam() function returns a list containing three data frames:
-
-decontaminated_asv_table: Decontaminated ASV count data frame. This is a table with counts of ASVs that are highly likely to be contaminants set to 0 by applying the contaminant removal algorithm. This table can be used for downstream analysis.
-removed_contaminant_asv_ids: Data frame of removed contaminant ASV IDs. Contains ASV IDs identified as contaminants and the case (case_2, case_3, etc.) in which the ASV was removed. Useful for checking which ASVs were removed and why.
-non_removed_contaminant_asv_ids: Data frame of non-removed ASV IDs (potential true signal). Contains ASV IDs that were likely contaminants but were not removed. These ASVs may be potential true biological signals, and further review may be needed in downstream analysis.
-The structure and column information of each data frame can be checked through the help("cleanseq_u_decontam") command.
+3. 
