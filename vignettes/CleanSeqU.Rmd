@@ -1,3 +1,14 @@
+---
+title: "CleanSeqU User Guide"
+author: "Sung Min Youn"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CleanSeqU}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
 # CleanSeqU
 
 **CleanSeqU** is an R package designed to effectively remove contaminants from low-biomass 16S rRNA data. It is specifically developed to decontaminate 16S rRNA sequencing data, particularly for low-biomass samples such as catheterized urine.

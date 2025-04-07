@@ -3,7 +3,7 @@ Title: CleanSeqU: Contaminant Removal for Low-Biomass 16S rRNA Data
 Version: 1.0.0.0
 Authors@R: person("Sung Min", "Youn", , "ysm0503v@gmail.com", role = c("aut", "cre"))
 Description: CleanSeqU is an R package designed for effective contaminant removal from low-biomass 16S rRNA sequencing data, especially catheterized urine samples.
-Key features include:
+Key features include: 
 1. Innovative Algorithm: Green Cleaner for enhanced accuracy.
 2. Characteristic Approach: Blank control, blacklists, curated taxa for precision.
 3. Clear I/O: User-friendly interface for straightforward analysis and high-quality data.
@@ -15,3 +15,7 @@ Imports: data.table, dplyr, glue, tibble, proxy
 Keywords: 16S rRNA sequencing, low biomass samples, decontamination, blank control, blacklist, microbiome community analysis
 URL: https://github.com/BITsmyoon/CleanSeqU
 BugReports: https://github.com/BITsmyoon/CleanSeqU/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
