@@ -1,0 +1,143 @@
+# CleanSeqU
+
+**CleanSeqU** is an R package designed to effectively remove contaminants from low-biomass 16S rRNA data. It is specifically developed to decontaminate 16S rRNA sequencing data, particularly for low-biomass samples such as catheterized urine.
+
+## Key Features
+
+* **Innovative Decontamination Algorithm:** Implements the CleanSeqU algorithm to enhance the accuracy of 16S rRNA sequencing data analysis in low-biomass samples.
+* **Characteristic Decontamination Approach:** Leverages a single blank extraction control, an in-house blacklist, and curated non-biologic taxa information for precise contaminant removal.
+* **Clear Input and Output:** Uses an Amplicon Sequence Variant (ASV) count table as input and provides a decontaminated ASV count table as output.
+* **User-Friendly Interface:** Offers a user-friendly interface for straightforward decontamination analysis and yields high-quality data for downstream microbiome research.
+
+CleanSeqU is an essential tool for researchers seeking to address contamination challenges in low-biomass samples and obtain more accurate microbial community analysis results.
+
+## Package Installation
+
+The CleanSeqU package can be installed from GitHub.
+
+### Install from GitHub
+
+```R
+# Install devtools package first if not installed
+# install.packages("devtools")
+
+devtools::install_github("BITsmyoon/CleanSeqU")
+```
+Basic Usage
+The core functionality of the CleanSeqU package is provided through the **cleanseq_u_decontam()** function.
+
+## In R
+
+### Run CleanSeqU function
+
+```R
+library(CleanSeqU)
+
+result <- cleanseq_u_decontam(
+  input_asv_count = asv_count_path,
+  input_meta_data = meta_data_path,
+  input_taxa_table = taxa_table_path,
+  input_taxa_blacklist = taxa_blacklist_path,
+  input_in_house_asv_blacklist = in_house_asv_blacklist_path
+)
+```
+
+### Required Input Files
+
+To use the `cleanseq_u_decontam()` function, the following input files are required:
+
+* `input_asv_count`: Path to the ASV count table file
+* `input_meta_data`: Path to the sample metadata file
+* `input_taxa_table`: Path to the ASV taxonomy table file
+* `input_taxa_blacklist`: Path to the taxonomy blacklist file
+* `input_in_house_asv_blacklist`: Path to the in-house ASV blacklist file
+
+Please refer to the function documentation (`?cleanseq_u_decontam`) or the package manual for the format of each input file.
+**Please make sure to check the structure of each input file using toy data or function documentation. (`?cleanseq_u_decontam`)**
+
+### Example
+
+```R
+asv_count_path <-
+  system.file("extdata", "toy_asv_count.txt", package = "CleanSeqU")
+meta_data_path <-
+  system.file("extdata", "toy_meta_data.txt", package = "CleanSeqU")
+taxa_table_path <-
+  system.file("extdata", "toy_taxa_table.txt", package = "CleanSeqU")
+taxa_blacklist_path <-
+  system.file("extdata", "toy_asv_count.txt", package = "CleanSeqU")
+in_house_asv_blacklist_path <-
+  system.file("extdata", "toy_taxa_blacklist.txt", package = "CleanSeqU")
+
+result <- cleanseq_u_decontam(
+  input_asv_count = asv_count_path,
+  input_meta_data = meta_data_path,
+  input_taxa_table = taxa_table_path,
+  input_taxa_blacklist = taxa_blacklist_path,
+  input_in_house_asv_blacklist = in_house_asv_blacklist_path
+)
+```
+
+### Results
+
+The `cleanseq_u_decontam()` function returns a list containing three data frames. Each data frame provides different aspects of the decontamination results:
+
+*   **`decontaminated_asv_table`**: Decontaminated ASV count data frame. This table contains counts of ASVs that are highly likely to be contaminants set to 0 by applying the contaminant removal algorithm. This table is suitable for downstream analysis.
+
+*   **`exclude_asv`**: Data frame of removed contaminant ASV IDs. This table lists ASV IDs identified as contaminants and the `case` (case_2, case_3, etc.) in which each ASV was removed. It is useful for checking which ASVs were removed and the reasons for their removal.
+
+*   **`include_asv`**: Data frame of non-removed ASV IDs (potential true signal).  This table contains ASV IDs that were likely contaminants but were not removed. These ASVs might represent potential true biological signals, and further review may be needed during downstream analysis.
+
+Example outputs of these data frames are as follows:
+
+1. Names of the returned list:
+
+```R
+print(names(result))
+[1] "decontamed_asv_count" "exclude_asv" "include_asv"
+```
+
+2. Head of decontamed_asv_count data frame:
+
+```R
+head(result$decontamed_asv_count)
+```
+
+| asv_id                           | sample1 | sample2 | sample3 | sample4 | sample5 | sample6 | sample7 | sample8 | sample10 | sample11 | sample12 | sample13 | sample14 | sample15 | sample16 |
+|------------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|----------|----------|----------|----------|----------|----------|----------|
+| b9fcd7d71b74853248517b892d03a745   | 61      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 429      | 595      | 148      |
+| 6ea8228cb56f8a62f932f0e613bca40e   | 61      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| 8c8839583ce4564dbf5c6e917cafb82e   | 28      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| a8e53bd66879cd51ecb4e7daf552accb   | 56      | 0       | 0       | 0       | 316     | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| aee0dacb66bb3b44e8986f3859fd19d6   | 52      | 0       | 0       | 0       | 0       | 17      | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| 4850a238b7fbbd5ffa204c5a5a396f2c   | 95      | 0       | 0       | 0       | 0       | 0       | 0       | 0       | 0        | 0        | 0        | 0        | 0        | 687      | 0        |
+
+3. Head of exclude_asv data frame:
+
+```R
+head(result$exclude_asv)
+```
+
+| sample  | asv                              | case   |
+|---------|------------------------------------|--------|
+| sample2 | 5648dccee530d68ceb3e4d7d22cf8756   | case_3 |
+| sample2 | efbe1f58b1e2984ddc53a64f047d94ff   | case_3 |
+| sample2 | f4801b7a68515d9005fa572ee6afdf41   | case_3 |
+| sample2 | abd34643df4e48940286e05ff8518132   | case_3 |
+| sample2 | cff91f92ebadff0ecf455925e3e91b54   | case_3 |
+| sample2 | f67869972eff7782d3a18bfcea527d0c   | case_3 |
+
+4. Head of include_asv data frame:
+
+```R
+head(result$include_asv)
+```
+
+| sample   | asv                              | case     |
+|----------|------------------------------------|----------|
+| sample1  | e5c19d7800b18015f3a917fc015fc42f   | case_4_2 |
+| sample6  | d32e579b3ae7b2aae8d5bf9f027c29af   | case_4_2 |
+| sample14 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample15 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample16 | f7447c8e079023f4f2579d8580575dd3   | case_4_2 |
+| sample16 | 107273e73071282e4d0f4a0b46548da5   | case_4_2 |
